@@ -2,7 +2,7 @@
 /**
  * PagaMasTarde payment module for zencart
  *
- * @package     Pagantis
+ * @package     PagaMasTarde
  * @author      Albert Fatsini <afatsini@digitalorigin.com>
  * @copyright   Copyright (c) 2015  PagaMasTarde (http://www.pagamastarde.com)
  *
@@ -27,6 +27,20 @@
         // customer is in the pagantis gateway page, but the payment is not complete
         // se ha abierto la pagina de pago, pero todavia no se ha realizado el cobro
         exit;
+    }
+
+
+    $mode = ((MODULE_PAYMENT_PAGAMASTARDE_MODE == 'Test') ? 'test' : 'real');
+    if ( $mode == 'real'){
+      $pagamastarde_secret = trim( MODULE_PAYMENT_PAGAMASTARDE_SECRET );
+    }else{
+      $pagamastarde_secret = trim( MODULE_PAYMENT_PAGAMASTARDE_TEST_SECRET );
+    }
+    $signature_check = sha1($pagamastarde_secret.$notification['account_id'].$notification['api_version'].$notification['event'].$notification['data']['id']);
+    if ($signature_check != $notification['signature'] ){
+      //hack detected - not implemented yet
+      die( 'Fallo en el proceso de pago. Su pedido ha sido cancelado.' );
+      exit;
     }
 
 
