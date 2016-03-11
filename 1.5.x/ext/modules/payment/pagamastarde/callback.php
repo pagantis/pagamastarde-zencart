@@ -134,6 +134,8 @@
 
 
 
+        }else{
+            throw new Exception('Order not found');
         }
 
     }
