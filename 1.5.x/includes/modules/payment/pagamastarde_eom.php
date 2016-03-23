@@ -33,7 +33,7 @@
 
       if (is_object($order)) $this->update_status();
 
-      $this->form_action_url = "https://pmt-staging.pagantis.com/v1/installments";
+      $this->form_action_url = "https://pmt.pagantis.com/v1/installments";
 
         //list of currencies to process
       $this->allowCurrencyCode = array( 'EUR' );
