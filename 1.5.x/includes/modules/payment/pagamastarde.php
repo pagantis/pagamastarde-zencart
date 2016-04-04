@@ -19,7 +19,7 @@
      */
     function pagamastarde() {
       global $order;
-      $this->signature = 'pagamastarde|pagamastarde|1.1|1.0';
+      $this->signature = 'pagamastarde|pagamastarde|1.4|1.0';
       $this->code = 'pagamastarde';
       $this->title = MODULE_PAYMENT_PAGAMASTARDE_TEXT_TITLE;
       $this->description = MODULE_PAYMENT_PAGAMASTARDE_TEXT_DESCRIPTION;
@@ -370,7 +370,7 @@
             'address[zipcode]' => $order->customer['postcode'],
             'callback_url' => $callback_url,
             'discount[full]' => $dicount,
-            'phone' => $order->customer['telephone'],
+            'mobile_phone' => $order->customer['telephone'],
 
         );
         //product descirption
