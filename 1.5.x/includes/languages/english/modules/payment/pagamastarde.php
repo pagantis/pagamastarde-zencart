@@ -27,7 +27,7 @@
    });
    </script>';
 define('MODULE_PAYMENT_PAGAMASTARDE_TEXT_TITLE', 'Paga Más Tarde');
-define('MODULE_PAYMENT_PAGAMASTARDE_FINANCING','Financiación');
+define('MODULE_PAYMENT_PAGAMASTARDE_FINANCING','Financiación con Paga+Tarde');
 define('MODULE_PAYMENT_PAGAMASTARDE_MONTH','mes');
 define('MODULE_PAYMENT_PAGAMASTARDE_MONTHS','meses');
 define('MODULE_PAYMENT_PAGAMASTARDE_FOR','durante');
