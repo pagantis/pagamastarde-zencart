@@ -19,7 +19,7 @@
      */
     function pagamastarde() {
       global $order;
-      $this->signature = 'pagamastarde|pagamastarde|1.4|1.0';
+      $this->signature = 'pagamastarde|pagamastarde|1.5|1.0';
       $this->code = 'pagamastarde';
       $this->title = MODULE_PAYMENT_PAGAMASTARDE_TEXT_TITLE;
       $this->description = MODULE_PAYMENT_PAGAMASTARDE_TEXT_DESCRIPTION;
@@ -292,14 +292,6 @@
           // end - proceso estandar para generar el pedido
           $pagamastardeOrderGeneratedInConfirmation = $insert_id;
           $_SESSION['order_number_created']=$insert_id;
-          $_SESSION['cart']->reset(true);
-          //$_SESSION['cart']->cartID = $_SESSION['cart']->generate_cart_id();
-          unset($_SESSION['sendto']);
-          unset($_SESSION['billto']);
-          unset($_SESSION['shipping']);
-          unset($_SESSION['payment']);
-          unset($_SESSION['comments']);
-
       }
 
       return false;
@@ -577,18 +569,8 @@
         zen_mail('', SEND_EXTRA_ORDER_EMAILS_TO, EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
       }
 
-// load the after_process function from the payment modules
+      // load the after_process function from the payment modules
 
-      $this->after_process();
-      $cart->reset(true);
-      $_SESSION['cart']->reset(true);
-      $_SESSION['cart']->cartID = $_SESSION['cart']->generate_cart_id();
-      unset($_SESSION['sendto']);
-      unset($_SESSION['billto']);
-      unset($_SESSION['shipping']);
-      unset($_SESSION['payment']);
-      unset($_SESSION['comments']);
-      unset($_SESSION['cot_gv']);
       $_SESSION['pagamastardeOrderGeneratedInConfirmation']='';
       $_SESSION['pagamastardeCartIDinConfirmation']='';
       $pagamastardeOrderGeneratedInConfirmation='';
@@ -604,6 +586,7 @@
     function after_process() {
       $_SESSION['pagamastardeOrderGeneratedInConfirmation']='';
       $_SESSION['order_created'] = '';
+      $_SESSION['cart']->reset(true);
       return false;
     }
 
