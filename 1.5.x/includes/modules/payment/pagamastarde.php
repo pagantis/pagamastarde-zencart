@@ -214,7 +214,9 @@
                                   'date_purchased' => 'now()',
                                   'orders_status' => $order->info['order_status'],
                                   'currency' => $order->info['currency'],
-                                  'currency_value' => $order->info['currency_value']);
+                                  'currency_value' => $order->info['currency_value'],
+                                  'shipping_method' => $order->info['shipping_method'],
+                                  'shipping_module_code' => $order->info['shipping_module_code'] );
           zen_db_perform(TABLE_ORDERS, $sql_data_array);
           $insert_id = $db->insert_ID();
 
