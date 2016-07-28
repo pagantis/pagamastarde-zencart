@@ -19,7 +19,7 @@
      */
     function pagamastarde() {
       global $order;
-      $this->signature = 'pagamastarde|pagamastarde|1.5|1.0';
+      $this->signature = 'pagamastarde|pagamastarde|1.6|1.0';
       $this->code = 'pagamastarde';
       $this->title = MODULE_PAYMENT_PAGAMASTARDE_TEXT_TITLE;
       $this->description = MODULE_PAYMENT_PAGAMASTARDE_TEXT_DESCRIPTION;
@@ -206,7 +206,8 @@
                                   'billing_state' => $order->billing['state'],
                                   'billing_country' => $order->billing['country']['title'],
                                   'billing_address_format_id' => $order->billing['format_id'],
-                                  'payment_method' => $order->info['payment_method'],
+                                  'payment_method' => 'pagamastarde',
+                                  'payment_module_code' => 'pagamastarde',
                                   'cc_type' => $order->info['cc_type'],
                                   'cc_owner' => zen_session_id(),
                                   'cc_number' => $order->info['cc_number'],
