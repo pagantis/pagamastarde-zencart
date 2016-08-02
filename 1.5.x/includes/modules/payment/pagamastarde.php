@@ -176,7 +176,11 @@
             }
           }
 
+          //customer id not correctly stored, this line fixes it.
+          $customer_id = $_SESSION['customer_id'];
+
           $sql_data_array = array('customers_id' => $customer_id,
+                                  'order_total' => $order->info['total'],
                                   'customers_name' => $order->customer['firstname'] . ' ' . $order->customer['lastname'],
                                   'customers_company' => $order->customer['company'],
                                   'customers_street_address' => $order->customer['street_address'],
@@ -221,6 +225,16 @@
           zen_db_perform(TABLE_ORDERS, $sql_data_array);
           $insert_id = $db->insert_ID();
 
+
+          //the $_GLOBAL seems to fail. applying patch:
+          $sql_data_array = array('orders_id' => $insert_id,
+                                  'title' => 'Total:',
+                                  'text' => $order->info['total'],
+                                  'value' => $order->info['total'],
+                                  'class' => 'ot_total',
+                                  'sort_order' => 999);
+
+          zen_db_perform(TABLE_ORDERS_TOTAL, $sql_data_array);
 
           for ($i=0, $n=sizeof($order_totals); $i<$n; $i++) {
             $sql_data_array = array('orders_id' => $insert_id,

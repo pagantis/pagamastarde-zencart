@@ -15,15 +15,23 @@
  }else{
    $discount = 0;
  }
+
+ if ( MODULE_PAYMENT_PAGAMASTARDE_MODE == 'Test' ){
+   $key = MODULE_PAYMENT_PAGAMASTARDE_TEST_ACCOUNT_ID;
+ }else{
+   $key = MODULE_PAYMENT_PAGAMASTARDE_ACCOUNT_ID;
+ }
+
  $widget =   '<div class="PmtSimulator" data-pmt-num-quota="4" data-pmt-style="neutral" data-pmt-type="3" data-pmt-discount="'.$discount.'" data-pmt-amount="'.(float)( $order->info['total']  ).'" data-pmt-expanded="no"></div>
    <script type ="text/javascript" src ="https://cdn.pagamastarde.com/pmt-simulator/3/js/pmt-simulator.min.js">
    </script>
    <script>
     jQuery( document ).ready(function() {
+      pmtSimulator.simulator_app.setPublicKey("'.$key.'");
       pmtSimulator.simulator_app.load_jquery();
    });
    jQuery( document ).ajaxComplete(function() {
-     pmtSimulator.simulator_app.updateSimulators();
+     //pmtSimulator.simulator_app.updateSimulators();
    });
    </script>';
 define('MODULE_PAYMENT_PAGAMASTARDE_TEXT_TITLE', 'Paga Más Tarde');
