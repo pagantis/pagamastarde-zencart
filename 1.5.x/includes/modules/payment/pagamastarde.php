@@ -140,7 +140,7 @@
 
     function confirmation() {
 
-      global $cartID, $pagamastardeOrderGeneratedInConfirmation, $pagamastardeCartIDinConfirmation, $customer_id, $languages_id, $order, $order_total_modules,$db;
+      global $cartID, $pagamastardeOrderGeneratedInConfirmation, $pagamastardeCartIDinConfirmation, $customer_id, $order, $order_total_modules,$db;
       $insert_order =false;
       if (empty($pagamastardeOrderGeneratedInConfirmation)){
         $insert_order = true;
@@ -178,6 +178,7 @@
 
           //customer id not correctly stored, this line fixes it.
           $customer_id = $_SESSION['customer_id'];
+          $languages_id = $_SESSION['languages_id'];
 
           $sql_data_array = array('customers_id' => $customer_id,
                                   'order_total' => $order->info['total'],
@@ -292,7 +293,7 @@
 
                 zen_db_perform(TABLE_ORDERS_PRODUCTS_ATTRIBUTES, $sql_data_array);
 
-                if ((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && tep_not_null($attributes_values['products_attributes_filename'])) {
+                if ((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && !empty($attributes_values['products_attributes_filename'])) {
                   $sql_data_array = array('orders_id' => $insert_id,
                                           'orders_products_id' => $order_products_id,
                                           'orders_products_filename' => $attributes_values['products_attributes_filename'],
@@ -304,7 +305,6 @@
               }
             }
           }
-
 
           // end - proceso estandar para generar el pedido
           $pagamastardeOrderGeneratedInConfirmation = $insert_id;
@@ -328,7 +328,7 @@
         $amount = (int)( $order->info['total'] * 100 );
         $amount = $amount.'';
 
-
+        $languages_id = $_SESSION['languages_id'];
         if ( $this->mode == 'real'){
           $pagamastarde_account_id = trim( MODULE_PAYMENT_PAGAMASTARDE_ACCOUNT_ID );
           $pagamastarde_secret = trim( MODULE_PAYMENT_PAGAMASTARDE_SECRET );
@@ -432,9 +432,10 @@
      * una vez confirmado que el pedido es valido
      */
     function before_process() {
-      global $customer_id,$db, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $pagamastardeOrderGeneratedInConfirmation;
+      global $customer_id,$db, $order, $order_totals, $sendto, $billto, $payment, $currencies, $cart, $pagamastardeOrderGeneratedInConfirmation;
       global $$payment;
 
+      $languages_id = $_SESSION['languages_id'];
       $order_id = $pagamastardeOrderGeneratedInConfirmation;
 
       $check_query = $db->Execute("select orders_status from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
