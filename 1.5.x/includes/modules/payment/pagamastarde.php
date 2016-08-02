@@ -19,7 +19,7 @@
      */
     function pagamastarde() {
       global $order;
-      $this->signature = 'pagamastarde|pagamastarde|1.6|1.0';
+      $this->signature = 'pagamastarde|pagamastarde|1.7|1.0';
       $this->code = 'pagamastarde';
       $this->title = MODULE_PAYMENT_PAGAMASTARDE_TEXT_TITLE;
       $this->description = MODULE_PAYMENT_PAGAMASTARDE_TEXT_DESCRIPTION;
@@ -360,7 +360,6 @@
         $message = $pagamastarde_secret.$pagamastarde_account_id.$current_order_id.$amount.$thiscurrency.$pagamastarde_ok_url.$pagamastarde_nok_url.$callback_url.$dicount;
         $signature = sha1($message);
 
-
         $arrayHiddenFields = array (
 
             'order_id' => $current_order_id,
@@ -377,6 +376,10 @@
             'address[city]' => $order->customer['city'],
             'address[province]' =>$order->customer['state'],
             'address[zipcode]' => $order->customer['postcode'],
+            'shipping[street]' => $order->delivery['street_address'],
+            'shipping[city]' => $order->delivery['city'],
+            'shipping[province]' =>$order->delivery['state'],
+            'shipping[zipcode]' => $order->delivery['postcode'],
             'callback_url' => $callback_url,
             'discount[full]' => $dicount,
             'mobile_phone' => $order->customer['telephone'],
