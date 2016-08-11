@@ -37,7 +37,8 @@
       $pagamastarde_secret = trim( MODULE_PAYMENT_PAGAMASTARDE_TEST_SECRET );
     }
     $signature_check = sha1($pagamastarde_secret.$notification['account_id'].$notification['api_version'].$notification['event'].$notification['data']['id']);
-    if ($signature_check != $notification['signature'] ){
+    $signature_check_sha512 = hash('sha512',$pagamastarde_secret.$notification['account_id'].$notification['api_version'].$notification['event'].$notification['data']['id']);
+    if ($signature_check != $notification['signature'] && $signature_check_sha512 != $notification['signature'] ){
       //hack detected - not implemented yet
       die( 'Fallo en el proceso de pago. Su pedido ha sido cancelado.' );
       exit;

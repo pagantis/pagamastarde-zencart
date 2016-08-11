@@ -358,7 +358,7 @@
     $_SERVER['REQUEST_URI'])).'/ext/modules/payment/pagamastarde/callback.php';
 
         $message = $pagamastarde_secret.$pagamastarde_account_id.$current_order_id.$amount.$thiscurrency.$pagamastarde_ok_url.$pagamastarde_nok_url.$callback_url.$dicount;
-        $signature = sha1($message);
+        $signature = hash('sha512', $message);
 
         $arrayHiddenFields = array (
 
@@ -437,7 +437,6 @@
     function before_process() {
       global $customer_id,$db, $order, $order_totals, $sendto, $billto, $payment, $currencies, $cart, $pagamastardeOrderGeneratedInConfirmation;
       global $$payment;
-
       $languages_id = $_SESSION['languages_id'];
       $order_id = $pagamastardeOrderGeneratedInConfirmation;
 
@@ -594,6 +593,7 @@
 
       $_SESSION['pagamastardeOrderGeneratedInConfirmation']='';
       $_SESSION['pagamastardeCartIDinConfirmation']='';
+      $_SESSION['cart']->reset(true);
       $pagamastardeOrderGeneratedInConfirmation='';
 
 
