@@ -18,6 +18,21 @@ Módulo de pago de pagamastarde.com para ZenCart (v.1.5.x)
 6. Una vez instalado, selecciona el módulo pagamastarde de la lista de módulos disponibles y pulsa Editar.
 7. Configura el código de cuenta y la clave de firma con la información de tu cuenta que encontrarás en [el panel de gestión de Pagamastarde](https://bo.pagamastarde.com/shop). Ten en cuenta que para hacer cobros reales deberás activar tu cuenta de pagamastarde.com.
 
+
+## Instucciones adicionales
+Para que después de la compra se vacie el carrito de la compra, se tiene que:
+8. Edita el fichero 'includes/templates/template_default/templates/tpl_checkout_success_default.php' y añade justo antes de la línea:
+
+  ```php
+  ?>
+  ```
+  el siguiente código:
+
+  ```php
+  $_SESSION['cart']->reset(true);
+  unset($_SESSION['cart']);
+  ```
+
 ### Soporte
 
 Si tienes alguna duda o pregunta no tienes más que escribirnos un email a soporte@pagamastarde.com.
