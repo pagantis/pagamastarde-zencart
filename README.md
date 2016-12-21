@@ -10,7 +10,6 @@ Módulo de pago de pagamastarde.com para ZenCart (v.1.5.x)
 3. Instala el módulo en tu tienda ZenCart. Para ello sube los ficheros de la carpeta con tu version de este módulo a la carpeta de tu instalación de ZenCart, manteniendo la estructura de directorios existente
   - ext/modules/payment/pagamastarde/callback.php
   - includes/modules/payment/pagamastarde.php
-  - includes/languages/espanol/modules/payment/pagamastarde.php
   - includes/languages/english/modules/payment/pagamastarde.php
 4. Si tu tienda tiene más idiomas, copia el fichero de idiomas en la carpeta correspondiente y edítalo para ajustar los textos
   - includes/languages/OTRO_IDIOMA/modules/payment/pagamastarde.php
@@ -18,27 +17,19 @@ Módulo de pago de pagamastarde.com para ZenCart (v.1.5.x)
 6. Una vez instalado, selecciona el módulo pagamastarde de la lista de módulos disponibles y pulsa Editar.
 7. Configura el código de cuenta y la clave de firma con la información de tu cuenta que encontrarás en [el panel de gestión de Pagamastarde](https://bo.pagamastarde.com/shop). Ten en cuenta que para hacer cobros reales deberás activar tu cuenta de pagamastarde.com.
 
-
-## Instucciones adicionales
-Para que después de la compra se vacie el carrito de la compra, se tiene que:
-8. Edita el fichero 'includes/templates/template_default/templates/tpl_checkout_success_default.php' y añade justo antes de la línea:
-
-  ```php
-  ?>
-  ```
-  el siguiente código:
-
-  ```php
-  $_SESSION['cart']->reset(true);
-  unset($_SESSION['cart']);
-  ```
-
 ### Soporte
 
 Si tienes alguna duda o pregunta no tienes más que escribirnos un email a soporte@pagamastarde.com.
 
 
 ### Release notes
+
+#### 2.0.0
+
+- Elimina necesidad de editar ficheros del template.
+- Solución de Bugs.
+- mejora de la compatibilidad con Zen cart.
+- manda más información a la página de paga+tarde para augmentar la conversión.
 
 #### 1.0.0
 
