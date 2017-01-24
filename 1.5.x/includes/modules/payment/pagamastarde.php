@@ -57,7 +57,7 @@ class pagamastarde extends base {
     global $order;
 
     $this->code = 'pagamastarde';
-    if (IS_ADMIN_FLAG === true) {
+    if (strpos($_SERVER[REQUEST_URI], "checkout_payment") <= 0) {
       $this->title = MODULE_PAYMENT_PAGAMASTARDE_TEXT_ADMIN_TITLE; // Payment module title in Admin
     } else {
       $this->title = MODULE_PAYMENT_PAGAMASTARDE_TEXT_CATALOG_TITLE; // Payment module title in Catalog
@@ -72,7 +72,7 @@ class pagamastarde extends base {
     if (is_object($order)) $this->update_status();
 
     $this->form_action_url = 'https://pmt.pagantis.com/v1/installments';
-    $this->version = '2.1';
+    $this->version = '2.2';
     }
 
     // class methods
@@ -262,7 +262,7 @@ class pagamastarde extends base {
       }
 
       foreach ($order->products as $product){
-        $submit_data["items[".$i."][description]"]=$product['name'] . " (".$product['qty'].") ";
+        $submit_data["items[".$i."][description]"]=$product['name'];
         $submit_data["items[".$i."][quantity]"]=$product['qty'];
         $submit_data["items[".$i."][amount]"]=number_format($product['final_price'] * $product['qty'], 2, '.','');
         $desciption[]=$product['name'] . " ( ".$product['qty']." )";
@@ -292,7 +292,7 @@ class pagamastarde extends base {
       $sql = sprintf("select json from %s where order_id='%s' order by id desc limit 1", TABLE_PAGAMASTARDE, $this->order_id);
       $check = $db->Execute($sql);
       if (!$check->EOF) {
-        $this->notification = json_decode($check->fields['json'],true);
+        $this->notification = json_decode(stripcslashes($check->fields['json']),true);
       } else {
         return;
       }
@@ -341,7 +341,7 @@ class pagamastarde extends base {
       $sql = sprintf("select json from %s where order_id='%s' order by id desc limit 1", TABLE_PAGAMASTARDE, $this->order_id);
       $check = $db->Execute($sql);
       if (!$check->EOF) {
-        $this->notification = json_decode($check->fields['json'],true);
+        $this->notification = json_decode(stripcslashes($check->fields['json']),true);
       } else {
         return;
       }

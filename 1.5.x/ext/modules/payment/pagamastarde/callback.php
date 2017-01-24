@@ -25,7 +25,7 @@ if ($signature_check != $notification['signature'] && $signature_check_sha512 !=
   die( 'Fallo en el proceso de pago. Su pedido ha sido cancelado.' );
   exit;
 } else {
-  $sql ="update " . TABLE_PAGAMASTARDE . " set json = '".$json."' where order_id = '".$notification['data']['order_id']."'";
+  $sql ="update " . TABLE_PAGAMASTARDE . " set json = '".addslashes($json)."' where order_id = '".$notification['data']['order_id']."'";
   $db->Execute($sql);
   echo 'OK';
 }

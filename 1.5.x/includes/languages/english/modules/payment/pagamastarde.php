@@ -29,13 +29,10 @@
       <script type ="text/javascript" src ="https://cdn.pagamastarde.com/pmt-simulator/3/js/pmt-simulator.min.js">
       </script>
       <script>
-       jQuery( document ).ready(function() {
-         pmtSimulator.simulator_app.setPublicKey("'.$key.'");
-         pmtSimulator.simulator_app.load_jquery();
-      });
-      jQuery( document ).ajaxComplete(function() {
-        //pmtSimulator.simulator_app.updateSimulators();
-      });
+      (function(){
+        pmtSimulator.simulator_app.setPublicKey("'.$key.'");
+        setTimeout(function(){pmtSimulator.simulator_app.load_jquery();},1000);
+      })();
       </script>';
   }
 
