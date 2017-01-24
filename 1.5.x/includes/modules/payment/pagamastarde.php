@@ -72,7 +72,7 @@ class pagamastarde extends base {
     if (is_object($order)) $this->update_status();
 
     $this->form_action_url = 'https://pmt.pagantis.com/v1/installments';
-
+    $this->version = '2.1';
     }
 
     // class methods
@@ -245,7 +245,9 @@ class pagamastarde extends base {
         'metadata[num_orders]' => $order_count,
         'metadata[amount_orders]' => $order_total,
         'dob' => $dob,
-        'metadata[member_since]' => $sign_up
+        'metadata[member_since]' => $sign_up,
+        'metadata[module_version]' => $this->version,
+        'metadata[platform]' => 'zencart '.PROJECT_VERSION_MAJOR.'.'.PROJECT_VERSION_MINOR
       );
 
       //product descirption
