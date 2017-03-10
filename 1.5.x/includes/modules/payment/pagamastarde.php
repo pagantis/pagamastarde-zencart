@@ -55,6 +55,9 @@ class pagamastarde extends base {
   */
   function __construct() {
     global $order;
+    if ($_SESSION['currency'] != 'EUR' && !IS_ADMIN_FLAG === true) {
+        return false;
+    }
 
     $this->code = 'pagamastarde';
     if (strpos($_SERVER[REQUEST_URI], "checkout_payment") <= 0) {
@@ -72,7 +75,7 @@ class pagamastarde extends base {
     if (is_object($order)) $this->update_status();
 
     $this->form_action_url = 'https://pmt.pagantis.com/v1/installments';
-    $this->version = '2.2';
+    $this->version = '2.3';
     }
 
     // class methods
@@ -162,7 +165,6 @@ class pagamastarde extends base {
       $cancelled_url = trim( zen_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL', false));
       $amount = number_format($order->info['total'] * 100, 0, '', '');
       $currency = $_SESSION['currency'];
-      $currency = 'EUR';
       if (MODULE_PAYMENT_PAGAMASTARDE_DISCOUNT == 'False'){
         $discount = 'false';
       }else{
@@ -192,8 +194,10 @@ class pagamastarde extends base {
       $dob = '';
       $order_total = 0;
       $order_count = 0;
+      $is_guest = 'true';
       if (trim($_SESSION['customer_id']) != '')
       {
+        $is_guest = 'false';
         $sql = sprintf("SELECT *
                         FROM %s
                         JOIN %s ON customers_info.customers_info_id = customers.customers_id
@@ -203,6 +207,7 @@ class pagamastarde extends base {
         while (!$check->EOF) {
           $sign_up = substr($check->fields['customers_info_date_account_created'],0,10);
           $dob = substr($check->fields['customers_dob'],0,10);
+          $gender = $check->fields['customers_gender'] == 'm' ? 'male' : 'female';
           $check->MoveNext();
         }
 
@@ -219,39 +224,63 @@ class pagamastarde extends base {
            $check->MoveNext();
          }
       }
+      $billing_dob = '';
+      if ($order->billing['firstname'] == $order->customer['firstname'] &&
+          $order->billing['lastname'] == $order->customer['lastname'] ) {
+            $billing_dob = $dob;
+      }
 
       $submit_data = array(
-        'order_id' => $this->order_id,
-        'email' => $order->customer['email_address'],
-        'full_name' =>$order->customer['firstname'] . ' ' . $order->customer['lastname'],
-        'amount' => $amount,
+        'account_id' => $public_key,
         'currency' => $currency,
         'ok_url' => $pagamastarde_ok_url,
         'nok_url' => $pagamastarde_nok_url,
         'cancelled_url' => $cancelled_url,
-        'account_id' => $public_key,
+        'callback_url' => $callback_url,
+        'order_id' => $this->order_id,
+        'amount' => $amount,
         'signature' => $signature,
-        'address[street]' => $order->customer['street_address'],
-        'address[city]' => $order->customer['city'],
-        'address[province]' =>$order->customer['state'],
-        'address[zipcode]' => $order->customer['postcode'],
+        'discount[full]' => $discount,
+        'dob' => $billing_dob,
+
+        'full_name' =>$order->billing['firstname'] . ' ' . $order->billing['lastname'],
+        'email' => $order->customer['email_address'],
+        'mobile_phone' => $order->customer['telephone'],
+        'address[street]' => $order->billing['street_address'],
+        'address[city]' => $order->billing['city'],
+        'address[province]' =>$order->billing['state'],
+        'address[zipcode]' => $order->billing['postcode'],
+
+        'loginCustomer[is_guest]' => $is_guest,
+        'loginCustomer[gender]' => $gender,
+        'loginCustomer[full_name]' => $order->customer['firstname'] . ' ' . $order->customer['lastname'],
+        'loginCustomer[num_orders]' => $order_count,
+        'loginCustomer[amount_orders]' => $order_total,
+        'loginCustomer[member_since]' => $sign_up,
+        'loginCustomer[street]' => $order->customer['street_address'],
+        'loginCustomer[city]' => $order->customer['city'],
+        'loginCustomer[province]' =>$order->customer['state'],
+        'loginCustomer[zipcode]' => $order->customer['postcode'],
+        'loginCustomer[company]' => $order->customer['company'],
+        'loginCustomer[dob]' => $dob,
+
+        'billing[street]' => $order->billing['street_address'],
+        'billing[city]' => $order->billing['city'],
+        'billing[province]' =>$order->billing['state'],
+        'billing[zipcode]' => $order->billing['postcode'],
+        'billing[company]' => $order->billing['company'],
+
         'shipping[street]' => $order->delivery['street_address'],
         'shipping[city]' => $order->delivery['city'],
         'shipping[province]' =>$order->delivery['state'],
         'shipping[zipcode]' => $order->delivery['postcode'],
-        'callback_url' => $callback_url,
-        'discount[full]' => $discount,
-        'mobile_phone' => $order->customer['telephone'],
-        'metadata[num_orders]' => $order_count,
-        'metadata[amount_orders]' => $order_total,
-        'dob' => $dob,
-        'metadata[member_since]' => $sign_up,
+        'shipping[company]' => $order->delivery['company'],
+
         'metadata[module_version]' => $this->version,
         'metadata[platform]' => 'zencart '.PROJECT_VERSION_MAJOR.'.'.PROJECT_VERSION_MINOR
       );
 
       //product descirption
-      $desciption=[];
       $i=0;
       if (isset($order->info['shipping_method'])){
         $submit_data["items[".$i."][description]"]=$order->info['shipping_method'];
