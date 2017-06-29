@@ -32,6 +32,7 @@
       (function(){
         pmtSimulator.simulator_app.setPublicKey("'.$key.'");
         setTimeout(function(){pmtSimulator.simulator_app.load_jquery();},1000);
+        pmtClient.events.send('checkout', { basketAmount: "'.(float)( $order->info['total']  ).'" } );
       })();
       </script>';
   }
