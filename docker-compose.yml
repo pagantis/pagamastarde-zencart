@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+    zencart-www:
+        # localhost:8097/adm - root/Admin123
+        build:
+            dockerfile: docker/php/Dockerfile
+            context: .
+        ports: 
+            - "8097:80"
+        volumes:
+            - ./src:/pagantis
+    zencart-db:
+        build:
+            dockerfile: docker/mysql/Dockerfile
+            context: .
