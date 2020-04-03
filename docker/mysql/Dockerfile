@@ -6,4 +6,4 @@ ENV MYSQL_PASSWORD db
 ENV MYSQL_DATABASE db
 ENV MYSQL_ROOT_PASSWORD db
 
-VOLUME ./docker/resources/$VERSION/demo.sql:/docker-entrypoint-initdb.d/dump.sql
+COPY ./docker/resources/$VERSION/demo.sql /docker-entrypoint-initdb.d/dump.sql
