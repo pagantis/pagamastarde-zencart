@@ -29,7 +29,7 @@ Si tienes alguna duda o pregunta no tienes más que escribirnos un email a sopor
 - Elimina necesidad de editar ficheros del template.
 - Solución de Bugs.
 - mejora de la compatibilidad con Zen cart.
-- manda más información a la página de paga+tarde para augmentar la conversión.
+- manda más información a la página de Pagantis para augmentar la conversión.
 
 #### 1.0.0
 
