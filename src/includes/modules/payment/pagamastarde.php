@@ -55,9 +55,6 @@ class pagamastarde extends base {
   */
   function __construct() {
     global $order;
-    if ($_SESSION['currency'] != 'EUR' && !IS_ADMIN_FLAG === true) {
-        return false;
-    }
 
     $this->code = 'pagamastarde';
     if (strpos($_SERVER[REQUEST_URI], "checkout_payment") <= 0) {

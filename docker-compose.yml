@@ -2,6 +2,7 @@ version: "3.7"
 services:
     zencart-www:
         # localhost:8097/adm - root/Admin123
+        container_name: zencart-www
         build:
             dockerfile: docker/php/Dockerfile
             context: .
@@ -9,9 +10,10 @@ services:
             - "8097:80"
         volumes:
             - ./src/includes/modules/payment/pagamastarde.php:/var/www/includes/modules/payment/pagamastarde.php
-            - ./src/includes/languages/english/modules:/var/www/includes/languages/english/modules
+            - ./src/includes/languages/english/modules/payment/pagamastarde.php:/var/www/includes/languages/english/modules/payment/pagamastarde.php
             - ./src/ext:/var/www/ext
     zencart-db:
+        container_name: zencart-db
         build:
             dockerfile: docker/mysql/Dockerfile
             context: .
