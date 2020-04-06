@@ -9,8 +9,8 @@ services:
         ports: 
             - "8097:80"
         volumes:
-            - ./src/includes/modules/payment/pagamastarde.php:/var/www/includes/modules/payment/pagamastarde.php
-            - ./src/includes/languages/english/modules/payment/pagamastarde.php:/var/www/includes/languages/english/modules/payment/pagamastarde.php
+            - ./src/includes/modules/payment/pagantis.php:/var/www/includes/modules/payment/pagantis.php
+            - ./src/includes/languages/english/modules/payment/pagantis.php:/var/www/includes/languages/english/modules/payment/pagantis.php
             - ./src/ext:/var/www/ext
     zencart-db:
         container_name: zencart-db
