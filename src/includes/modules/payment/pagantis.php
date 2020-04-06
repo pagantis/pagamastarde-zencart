@@ -232,6 +232,19 @@ class pagantis extends base {
             $billing_dob = $dob;
       }
 
+      $purchase_country = 'null'; //Default Purchase country. Just in Case.
+      $valid_countries = array('ES','IT','FR','PT');
+
+      if(in_array($order->billing['country']['iso_code_2'], $valid_countries)) {
+          $purchase_country = $order->billing['country'];
+      }
+      if(in_array($order->delivery['country']['iso_code_2'], $valid_countries)) {
+          $purchase_country = $order->delivery['country'];
+      }
+      if(in_array($order->customer['country']['iso_code_2'], $valid_countries)) {
+          $purchase_country = $order->customer['country'];
+      }
+
       $submit_data = array(
         'account_id' => $public_key,
         'currency' => $currency,
@@ -271,6 +284,7 @@ class pagantis extends base {
         'billing[province]' =>$order->billing['state'],
         'billing[zipcode]' => $order->billing['postcode'],
         'billing[company]' => $order->billing['company'],
+        'purchase_country' => $purchase_country,
 
         'shipping[street]' => $order->delivery['street_address'],
         'shipping[city]' => $order->delivery['city'],
