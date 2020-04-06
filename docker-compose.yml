@@ -8,7 +8,9 @@ services:
         ports: 
             - "8097:80"
         volumes:
-            - ./src:/pagantis
+            - ./src/includes/modules/payment/pagamastarde.php:/var/www/includes/modules/payment/pagamastarde.php
+            - ./src/includes/languages/english/modules:/var/www/includes/languages/english/modules
+            - ./src/ext:/var/www/ext
     zencart-db:
         build:
             dockerfile: docker/mysql/Dockerfile
